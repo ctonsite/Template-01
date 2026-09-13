@@ -172,64 +172,76 @@
 
     <img src="IMG-20260822-WA0047.jpg" alt="Foto RSVP" class="foto-rsvp">
     
-<div style="max-width:600px; margin:50px auto; padding:40px; font-family:sans-serif; background:white; border-radius:20px; box-shadow:0 10px 40px rgba(0,0,0,0.1);">
+<div style="max-width:700px; margin:50px auto; padding:50px; font-family:'Poppins', sans-serif; background:linear-gradient(135deg, #fff 0%, #fdf8f3 100%); border-radius:24px; box-shadow:0 20px 60px rgba(0,0,0,0.08);">
   
-  <div id="step1" class="step">
-    <h2 style="font-size:32px;">Siapa nama kamu? 👋</h2>
-    <input type="text" id="nama" placeholder="Tulis nama lengkap" style="width:100%; padding:15px; font-size:18px; margin:20px 0; border:2px solid #eee; border-radius:10px;">
-    <button onclick="nextStep(2)" style="padding:15px 30px; background:#d4af7a; border:none; color:white; font-size:18px; border-radius:10px; cursor:pointer;">Lanjut →</button>
-  </div>
+  <h2 style="font-size:36px; text-align:center; margin-bottom:10px; color:#333;">Konfirmasi Kehadiran</h2>
+  <p style="text-align:center; color:#777; margin-bottom:40px;">Mohon isi data di bawah ini ya 💌</p>
 
-  <div id="step2" class="step" style="display:none;">
-    <h2 style="font-size:32px;">Kamu hadir gak?</h2>
-    <button onclick="setStatus('Hadir'); nextStep(3)" style="width:100%; padding:20px; margin:10px 0; font-size:18px; border:2px solid #d4af7a; background:white; border-radius:10px; cursor:pointer;">Hadir ✅</button>
-    <button onclick="setStatus('Tidak Hadir'); nextStep(4)" style="width:100%; padding:20px; margin:10px 0; font-size:18px; border:2px solid #ccc; background:white; border-radius:10px; cursor:pointer;">Tidak Hadir ❌</button>
-    <button onclick="prevStep(1)">← Kembali</button>
-  </div>
+  <form id="rsvpForm">
+    <input type="hidden" name="idUndangan" value="wedding-rizal-nisa"> <!-- ganti per klien -->
 
-  <div id="step3" class="step" style="display:none;">
-    <h2 style="font-size:32px;">Bawa berapa orang?</h2>
-    <input type="number" id="jumlah" value="1" min="1" style="width:100%; padding:15px; font-size:18px; margin:20px 0; border:2px solid #eee; border-radius:10px;">
-    <button onclick="nextStep(4)">Lanjut →</button>
-    <button onclick="prevStep(2)">← Kembali</button>
-  </div>
+    <div style="margin-bottom:25px;">
+      <label style="font-size:16px; font-weight:600; color:#444;">Nama Lengkap</label>
+      <input type="text" name="nama" placeholder="Contoh: Andi Pratama" required 
+      style="width:100%; padding:18px; font-size:18px; margin-top:8px; border:2px solid #eee; border-radius:12px; outline:none;">
+    </div>
 
-  <div id="step4" class="step" style="display:none;">
-    <h2 style="font-size:32px;">Ada ucapan buat pengantin?</h2>
-    <textarea id="ucapan" placeholder="Tulis doa terbaikmu..." style="width:100%; padding:15px; font-size:18px; height:120px; border:2px solid #eee; border-radius:10px;"></textarea>
-    <button onclick="kirimRSVP()">Kirim RSVP 💌</button>
-    <button onclick="prevStep(3)">← Kembali</button>
-  </div>
+    <div style="margin-bottom:25px;">
+      <label style="font-size:16px; font-weight:600; color:#444;">Konfirmasi Kehadiran</label>
+      <div style="display:flex; gap:15px; margin-top:8px;">
+        <label style="flex:1; padding:18px; border:2px solid #eee; border-radius:12px; text-align:center; cursor:pointer; font-size:18px;">
+          <input type="radio" name="status" value="Hadir" required style="margin-right:8px;"> Hadir ✅
+        </label>
+        <label style="flex:1; padding:18px; border:2px solid #eee; border-radius:12px; text-align:center; cursor:pointer; font-size:18px;">
+          <input type="radio" name="status" value="Tidak Hadir" required style="margin-right:8px;"> Tidak Hadir ❌
+        </label>
+      </div>
+    </div>
 
-  <p id="statusMsg"></p>
+    <div style="margin-bottom:25px;">
+      <label style="font-size:16px; font-weight:600; color:#444;">Jumlah Tamu</label>
+      <input type="number" name="jumlah" placeholder="1" min="1" value="1" required
+      style="width:100%; padding:18px; font-size:18px; margin-top:8px; border:2px solid #eee; border-radius:12px; outline:none;">
+    </div>
+
+    <div style="margin-bottom:30px;">
+      <label style="font-size:16px; font-weight:600; color:#444;">Ucapan & Doa</label>
+      <textarea name="ucapan" placeholder="Tulis doa terbaik untuk pengantin..." 
+      style="width:100%; padding:18px; font-size:18px; height:140px; margin-top:8px; border:2px solid #eee; border-radius:12px; outline:none;"></textarea>
+    </div>
+
+    <button type="submit" 
+    style="width:100%; padding:20px; background:#d4af7a; border:none; color:white; font-size:20px; font-weight:600; border-radius:12px; cursor:pointer;">
+      Kirim RSVP Sekarang
+    </button>
+  </form>
+
+  <p id="statusMsg" style="text-align:center; margin-top:20px; font-size:16px;"></p>
 </div>
 
 <script>
-const API_URL = "AKfycbwGCkqERU_d3J0r6qvzXgVsWDGeIyNnqLN9Yjevlg79";
-let formData = { idUndangan: "wedding-rizal-nisa" };
+const API_URL = "AKfycbwGCkqERU_d3J0r6qvzXgVsWDGeIyNnqLN9Yjevlg79"; // ganti
 
-function nextStep(n) {
-  document.querySelectorAll('.step').forEach(s => s.style.display = 'none');
-  document.getElementById('step' + n).style.display = 'block';
-  
-  // simpan data tiap pindah step
-  if(document.getElementById('nama')) formData.nama = document.getElementById('nama').value;
-  if(document.getElementById('jumlah')) formData.jumlah = document.getElementById('jumlah').value;
-  if(document.getElementById('ucapan')) formData.ucapan = document.getElementById('ucapan').value;
-}
-
-function prevStep(n) { nextStep(n) }
-function setStatus(val) { formData.status = val; }
-
-async function kirimRSVP(){
+document.getElementById('rsvpForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
   document.getElementById('statusMsg').innerText = "Mengirim...";
-  await fetch(API_URL, {
-    method: 'POST',
-    mode: 'no-cors',
-    body: JSON.stringify(formData)
-  });
-  document.getElementById('statusMsg').innerText = "Makasih! RSVP kamu udah masuk 💌";
-}
+
+  const data = Object.fromEntries(new FormData(e.target));
+
+  try {
+    await fetch(API_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      body: JSON.stringify(data)
+    });
+    document.getElementById('statusMsg').innerText = "Terima kasih! RSVP kamu sudah terkirim 💌";
+    document.getElementById('statusMsg').style.color = "green";
+    e.target.reset();
+  } catch(err) {
+    document.getElementById('statusMsg').innerText = "Gagal mengirim. Coba lagi.";
+    document.getElementById('statusMsg').style.color = "red";
+  }
+});
 </script>
     <footer>
       <p>Merupakan suatu kehormatan dan kebahagiaan bagi kami<br>apabila Bapak/Ibu/Saudara/i berkenan hadir</p>
