@@ -172,13 +172,46 @@
 
     <img src="IMG-20260822-WA0047.jpg" alt="Foto RSVP" class="foto-rsvp">
     
-    <h2 style="margin-bottom: 20px;">RSVP Kehadiran</h2>
-    <div class="form-container">
-      <div class="iframe-wrapper">
-        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfwvSaSDbl5eOLO5cM_pOx2OCgB-Vd5IPyX1vqBI_1WmZiFzQ/viewform?embedded=true"></iframe>
-      </div>
-      <a href="https://docs.google.com/forms/d/e/1FAIpQLSfwvSaSDbl5eOLO5cM_pOx2OCgB-Vd5IPyX1vqBI_1WmZiFzQ/viewform" target="_blank" class="btn-link">Form tidak muncul? Klik di sini</a>
-    </div>
+<!-- FORM RSVP -->
+<div style="max-width:400px; margin:auto; padding:20px; font-family:sans-serif;">
+  <h3>Konfirmasi Kehadiran</h3>
+  <form id="rsvpForm">
+    <input type="hidden" name="idUndangan" value="wedding-rizal-nisa"> <!-- ganti per klien -->
+    <input type="text" name="nama" placeholder="Nama Lengkap" required style="width:100%; padding:8px; margin:5px 0;">
+    <select name="status" required style="width:100%; padding:8px; margin:5px 0;">
+      <option value="">Pilih Kehadiran</option>
+      <option value="Hadir">Hadir</option>
+      <option value="Tidak Hadir">Tidak Hadir</option>
+    </select>
+    <input type="number" name="jumlah" placeholder="Jumlah Tamu" min="1" value="1" style="width:100%; padding:8px; margin:5px 0;">
+    <textarea name="ucapan" placeholder="Ucapan & Doa" style="width:100%; padding:8px; margin:5px 0;"></textarea>
+    <button type="submit" style="width:100%; padding:10px; background:#d4af7a; border:none; color:white;">Kirim RSVP</button>
+  </form>
+  <p id="statusMsg"></p>
+</div>
+
+<script>
+const API_URL = "AKfycbwGCkqERU_d3J0r6qvzXgVsWDGeIyNnqLN9Yjevlg79"; // ganti
+
+document.getElementById('rsvpForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  document.getElementById('statusMsg').innerText = "Mengirim...";
+
+  const data = Object.fromEntries(new FormData(e.target));
+
+  try {
+    await fetch(API_URL, {
+      method: 'POST',
+      mode: 'no-cors', // penting buat google script
+      body: JSON.stringify(data)
+    });
+    document.getElementById('statusMsg').innerText = "Terima kasih! RSVP kamu sudah terkirim 💌";
+    e.target.reset();
+  } catch(err) {
+    document.getElementById('statusMsg').innerText = "Gagal mengirim. Coba lagi.";
+  }
+});
+</script>
     <footer>
       <p>Merupakan suatu kehormatan dan kebahagiaan bagi kami<br>apabila Bapak/Ibu/Saudara/i berkenan hadir</p>
       <p>Atas kehadiran dan do’a restunya, kami ucapkan terima kasih</p>
